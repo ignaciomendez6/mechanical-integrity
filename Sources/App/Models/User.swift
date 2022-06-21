@@ -7,6 +7,7 @@
 
 import Fluent
 import Vapor
+import CloudKit
 
 final class User: Model, Content {
     static let schema = "users" // table name
@@ -26,6 +27,18 @@ final class User: Model, Content {
         self.id = id
         self.email = email
         self.password = password
+    }
+}
+
+final class UserPublic: Content {
+    
+    var id: UUID?
+    
+    var email: String
+    
+    init(id: UUID?, email: String) {
+        self.id = id
+        self.email = email
     }
 }
 
