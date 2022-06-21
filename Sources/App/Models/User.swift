@@ -7,7 +7,6 @@
 
 import Fluent
 import Vapor
-import CloudKit
 
 final class User: Model, Content {
     static let schema = "users" // table name
