@@ -29,3 +29,15 @@ final class User: Model, Content {
     }
 }
 
+final class UserPublic: Content {
+    
+    var id: UUID?
+    
+    var email: String
+    
+    init(id: UUID?, email: String) {
+        self.id = id
+        self.email = email
+    }
+}
+
