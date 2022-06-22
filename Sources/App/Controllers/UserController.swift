@@ -12,13 +12,14 @@ import Crypto
 struct UserController: RouteCollection {
     func boot(routes: RoutesBuilder) throws {
         let user = routes.grouped("users")
-        user.post(use: create)
-        user.get(use: index)
-        user.grouped(":userId").delete(use: delete)
+        user.post(use: createUser)
+        user.get(use: getAllusers)
+                
+        user.grouped(":userId").delete(use: deleteUser)
     }
     
     // http://127.0.0.1:8080/users aca se crea un usuario nuevo si este no existe
-    func create(req: Request) async throws -> HTTPStatus {
+    func createUser(req: Request) async throws -> HTTPStatus {
         let user = try req.content.decode(User.self)
         let userDb = try await User.query(on: req.db).filter(\.$email == user.email).first() // me fijo si el usuario ya existe
         if !(userDb == nil) {
@@ -31,7 +32,7 @@ struct UserController: RouteCollection {
     }
     
     // http://127.0.0.1:8080/users aca muestro todos los usarios
-    func index(req: Request) async throws -> [UserPublic] {
+    func getAllusers(req: Request) async throws -> [UserPublic] {
         let users = try await User.query(on: req.db).all()
         var usersPublic: [UserPublic] = []
         for i in 0..<users.count {
@@ -41,7 +42,7 @@ struct UserController: RouteCollection {
     }
     
     // http://127.0.0.1:8080/users:userId aca elimino un usuario segun su id
-    func delete(req: Request) async throws -> HTTPStatus {
+    func deleteUser(req: Request) async throws -> HTTPStatus {
         guard let user = try await User.find(req.parameters.get("userId"), on: req.db) else {
             throw Abort(.notFound)
         }
