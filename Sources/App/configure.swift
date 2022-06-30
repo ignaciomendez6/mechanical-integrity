@@ -5,8 +5,8 @@ import Vapor
 // configures your application
 public func configure(_ app: Application) throws {
     // uncomment to serve files from /Public folder
-    app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
-    app.middleware.use(app.sessions.middleware)
+//    app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
+//    app.middleware.use(app.sessions.middleware)
     
     app.databases.use(.postgres(
         hostname: Environment.get("DATABASE_HOST") ?? "localhost",
@@ -17,8 +17,9 @@ public func configure(_ app: Application) throws {
     ), as: .psql)
     
     app.migrations.add(CreateUser())
-    app.migrations.add(CreteToken())
-    app.migrations.add(CreateAdminUser())
+    
+    // Add HMAC with SHA-256 signer.
+    app.jwt.signers.use(.hs256(key: "secret")) // contraseña para firmar el JWT, esto debería ser una variable de entorno?
     
     // register routes
     try routes(app)
