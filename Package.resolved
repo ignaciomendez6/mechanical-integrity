@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/vapor/async-kit.git",
       "state" : {
-        "revision" : "017dc7da68c1ec9f0f46fcd1a8002d14a5662732",
-        "version" : "1.12.0"
+        "revision" : "c3329e444bafbb12d1d312af9191be95348a8175",
+        "version" : "1.13.0"
       }
     },
     {
@@ -41,8 +41,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/vapor/fluent-kit.git",
       "state" : {
-        "revision" : "2b3ac0556740ea8d68f8616917daf64338d54c1b",
-        "version" : "1.29.2"
+        "revision" : "2676424be0b65d44a88ef3d3f325503fd0f025a8",
+        "version" : "1.31.0"
       }
     },
     {
@@ -50,8 +50,26 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/vapor/fluent-postgres-driver.git",
       "state" : {
-        "revision" : "5230817eaab7184bcaf0b6ebb471f175df980035",
-        "version" : "2.3.0"
+        "revision" : "a8b2839ea86c44a35c17f66eb0885f9e5b51a531",
+        "version" : "2.4.0"
+      }
+    },
+    {
+      "identity" : "jwt",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/vapor/jwt.git",
+      "state" : {
+        "revision" : "f9dc4cb5c49e120dd73b740a571cfd289ac30cb8",
+        "version" : "4.2.0"
+      }
+    },
+    {
+      "identity" : "jwt-kit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/vapor/jwt-kit.git",
+      "state" : {
+        "revision" : "718e94f917a4c053758e5bb50c28553561a6ef91",
+        "version" : "4.6.0"
       }
     },
     {
@@ -86,8 +104,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/vapor/routing-kit.git",
       "state" : {
-        "revision" : "9e181d685a3dec1eef1fc6dacf606af364f86d68",
-        "version" : "4.5.0"
+        "revision" : "ffac7b3a127ce1e85fb232f1a6271164628809ad",
+        "version" : "4.6.0"
       }
     },
     {
@@ -221,8 +239,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/vapor/websocket-kit.git",
       "state" : {
-        "revision" : "09212f4c2b9ebdef00f04b913b57f5d77bc4ea62",
-        "version" : "2.4.1"
+        "revision" : "d8230eae70650652661f360f322db0cc22955b2f",
+        "version" : "2.5.0"
       }
     }
   ],
