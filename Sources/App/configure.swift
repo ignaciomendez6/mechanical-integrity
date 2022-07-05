@@ -1,12 +1,16 @@
 import Fluent
 import FluentPostgresDriver
 import Vapor
+import Leaf
+import SendGrid
 
 // configures your application
 public func configure(_ app: Application) throws {
     // uncomment to serve files from /Public folder
 //    app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
 //    app.middleware.use(app.sessions.middleware)
+    
+    app.sendgrid.initialize()
     
     app.databases.use(.postgres(
         hostname: Environment.get("DATABASE_HOST") ?? "localhost",
@@ -20,6 +24,8 @@ public func configure(_ app: Application) throws {
     
     // Add HMAC with SHA-256 signer.
     app.jwt.signers.use(.hs256(key: "secret")) // contraseña para firmar el JWT, esto debería ser una variable de entorno?
+    
+    app.sendgrid.initialize()
     
     // register routes
     try routes(app)

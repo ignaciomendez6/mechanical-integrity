@@ -9,11 +9,14 @@ import Fluent
 import Vapor
 import Crypto
 import Foundation
+import SendGrid
 
 struct UserController: RouteCollection {
     func boot(routes: RoutesBuilder) throws {
         let usersRoute = routes.grouped("users") // /users
         usersRoute.post(use: createUser) // /users
+        
+        usersRoute.post("reset" ,use: sendEmail) // /user/reset
         
         // Creo el token
         let passwordProtected = usersRoute.grouped(User.authenticator(), User.guardMiddleware())
@@ -24,6 +27,44 @@ struct UserController: RouteCollection {
         secure.get(":userId", use: getOneUser) // /users/userId
         secure.get(use: getAllusers) // /users
         secure.delete(":userId", use: deleteUser) // /users/userId
+    }
+    
+    // http://127.0.0.1:8080/users/reset POST: aca se envia un email para resetear el password
+    func sendEmail(req: Request) throws -> EventLoopFuture<HTTPStatus> {
+        var emailContent: [String: String] = [:]
+            emailContent["type"] = "text/html"
+            emailContent["value"] = "Codigo de verificación 1234"//mensaje del email
+        let email = SendGridEmail(personalizations: [Personalization(to: [EmailAddress(email: "ignaciomendezing@gmail.com", name: "Ignacio")],//destinatario
+                                                                     cc: nil,
+                                                                     bcc: nil,
+                                                                     subject: "Reset password",//asunto del mail
+                                                                     headers: nil,
+                                                                     substitutions: nil,
+                                                                     dynamicTemplateData: nil,
+                                                                     customArgs: nil,
+                                                                     sendAt: nil)],
+                                  from: EmailAddress(email: "ignaciomendez6@gmail.com", name: "Ignacio"),// quien envía el mail
+                                  replyTo: nil,
+                                  subject: nil,
+                                  content: [emailContent],
+                                  attachments: nil,
+                                  templateId: nil,
+                                  sections: nil,
+                                  headers: nil,
+                                  categories: nil,
+                                  customArgs: nil,
+                                  sendAt: nil,
+                                  batchId: nil,
+                                  asm: nil,
+                                  ipPoolName: nil,
+                                  mailSettings: nil,
+                                  trackingSettings: nil)
+        do {
+            return try req.application.sendgrid.client.send(emails: [email], on: req.eventLoop).transform(to: HTTPStatus.ok)
+        } catch {
+            req.logger.error("\(error)")
+            return req.eventLoop.makeFailedFuture(error)
+        }
     }
     
     // http://127.0.0.1:8080/users POST: aca se crea un usuario nuevo si este no existe
