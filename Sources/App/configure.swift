@@ -1,6 +1,8 @@
 import Fluent
 import FluentPostgresDriver
 import Vapor
+import Leaf
+import SendGrid
 
 // configures your application
 public func configure(_ app: Application) throws {
@@ -20,6 +22,8 @@ public func configure(_ app: Application) throws {
     
     // Add HMAC with SHA-256 signer.
     app.jwt.signers.use(.hs256(key: "secret")) // contraseña para firmar el JWT, esto debería ser una variable de entorno?
+    
+    app.sendgrid.initialize()
     
     // register routes
     try routes(app)
