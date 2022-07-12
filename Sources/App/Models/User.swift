@@ -20,12 +20,24 @@ final class User: Model, Content {
     @Field(key: "password")
     var password: String
     
+    @Field(key: "codeEmail")
+    var codeEmail: String
+    
+    @Field(key: "checked")
+    var checked: Bool
+    
+    @Field(key: "date")
+    var date: Date
+    
     init() { }
     
-    init(id: UUID? = nil, email: String, password: String) {
+    init(id: UUID? = nil, email: String, password: String, codeEmail: String, checked: Bool, date: Date) {
         self.id = id
         self.email = email
         self.password = password
+        self.codeEmail = codeEmail
+        self.checked = checked
+        self.date = date
     }
 }
 
