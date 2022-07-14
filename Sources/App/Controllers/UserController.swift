@@ -43,7 +43,7 @@ struct UserController: RouteCollection {
         user.date = Date() + 5*60
         try await user.save(on: req.db)
         
-        let resultEmail = try sendEmail(req: req, code: user.codeEmail, email: user.email) // envío mail con código utilizando el endpoint
+        let resultEmail = try sendEmail(req: req, code: user.codeEmail ?? "", email: user.email) // envío mail con código utilizando el endpoint
         print(resultEmail)
         
         let userPublic = UserPublic(id: user.id, email: user.email)
@@ -60,7 +60,7 @@ struct UserController: RouteCollection {
         guard let userDb = try await User.find(req.parameters.get("id"), on: req.db) else {
             throw Abort(.notFound)
         }
-        if (userDb.codeEmail == codeParam) && (userDb.date > Date()) {
+        if (userDb.codeEmail == codeParam) && (userDb.date ?? Date() > Date()) {
             userDb.checked = true
             try await userDb.update(on: req.db)
             
@@ -94,7 +94,7 @@ struct UserController: RouteCollection {
         //        userDb.checked = false
         userDb.date = Date() + 5*60
         userDb.codeEmail = [UInt8].random(count: 6).base64 // creo el código para verificar email // creo el código para verificar email
-        let resultEmail = try sendEmail(req: req, code: userDb.codeEmail, email: userDb.email)
+        let resultEmail = try sendEmail(req: req, code: userDb.codeEmail ?? "", email: userDb.email)
         print(resultEmail)
         try await userDb.update(on: req.db)
         return .ok
@@ -111,7 +111,7 @@ struct UserController: RouteCollection {
         guard let userDb = try await User.find(req.parameters.get("id"), on: req.db) else {
             throw Abort(.notFound)
         }
-        if (userDb.codeEmail == codeParam) && (userDb.date > Date()) {
+        if (userDb.codeEmail == codeParam) && (userDb.date ?? Date() > Date()) {
             userDb.checked = true
             userDb.password = try Bcrypt.hash(password) //encripto la contrasena
             
