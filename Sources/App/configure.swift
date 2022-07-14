@@ -19,6 +19,7 @@ public func configure(_ app: Application) throws {
     ), as: .psql)
     
     app.migrations.add(CreateUser())
+    app.migrations.add(CreateCalculation())
     
     // Add HMAC with SHA-256 signer.
     app.jwt.signers.use(.hs256(key: "secret")) // contraseña para firmar el JWT, esto debería ser una variable de entorno?

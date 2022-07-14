@@ -21,13 +21,17 @@ final class User: Model, Content {
     var password: String
     
     @Field(key: "codeEmail")
-    var codeEmail: String
+    var codeEmail: String?
     
     @Field(key: "checked")
-    var checked: Bool
+    var checked: Bool?
     
     @Field(key: "date")
-    var date: Date
+    var date: Date?
+    
+    // User has many calculations
+    @Children(for: \.$user)
+    var calculations: [Calculation]
     
     init() { }
     
