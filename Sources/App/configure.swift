@@ -22,7 +22,10 @@ public func configure(_ app: Application) throws {
     app.migrations.add(CreateCalculation())
     
     // Add HMAC with SHA-256 signer.
-    app.jwt.signers.use(.hs256(key: "secret")) // contraseña para firmar el JWT, esto debería ser una variable de entorno?
+    guard let key = Environment.process.JWT else { // enviroment variable set in scheme fon JWT sign
+        fatalError("No secret sign JWT provided")
+    }
+    app.jwt.signers.use(.hs256(key: key)) // contraseña para firmar el JWT, esto debería ser una variable de entorno?
     
     app.sendgrid.initialize()
     
