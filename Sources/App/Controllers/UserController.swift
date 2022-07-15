@@ -144,11 +144,11 @@ struct UserController: RouteCollection {
         print("sendEmail")
         var emailContent: [String: String] = [:]
         emailContent["type"] = "text/html"
-        emailContent["value"] = "Codigo de verificación \(code)"//message email
+        emailContent["value"] = "Authentication code: \(code)" // message email
         let email = SendGridEmail(personalizations: [Personalization(to: [EmailAddress(email: email, name: email)], // receiver
                                                                      cc: nil,
                                                                      bcc: nil,
-                                                                     subject: "Verificacion de código", // email subject
+                                                                     subject: "Authentication", // email subject
                                                                      headers: nil,
                                                                      substitutions: nil,
                                                                      dynamicTemplateData: nil,

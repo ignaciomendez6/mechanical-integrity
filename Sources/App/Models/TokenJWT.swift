@@ -14,7 +14,7 @@ import JWT
 struct SessionToken: Content, Authenticatable, JWTPayload {
     
     // Constants
-    var expirationTime: TimeInterval = 60 * 15
+    var expirationTime: TimeInterval = 60 * 30
     
     // Token Data
     var expiration: ExpirationClaim
