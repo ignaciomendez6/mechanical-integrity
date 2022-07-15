@@ -61,7 +61,7 @@ struct UserController: RouteCollection {
         print("createUser")
         let user = try req.content.decode(User.self)
         user.password = try Bcrypt.hash(user.password) //crypt password
-        user.codeEmail = String.random(length: 6) // code verification create
+        user.codeEmail = String(Int.random(in: 100000 ... 999999)) // code verification create
         user.checked = false
         user.date = Date() + 5*60
         try await user.save(on: req.db)
@@ -110,7 +110,7 @@ struct UserController: RouteCollection {
             throw Abort(.badRequest)
         }
         userDb.date = Date() + 5*60
-        userDb.codeEmail = String.random(length: 6) // create code to check email
+        userDb.codeEmail = String(Int.random(in: 100000 ... 999999)) // create code to check email
         let resultEmail = try sendEmail(req: req, code: userDb.codeEmail ?? "", email: userDb.email)
         print(resultEmail)
         try await userDb.update(on: req.db)
